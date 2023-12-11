@@ -1062,4 +1062,16 @@ class PluginTests: XCTestCase {
             XCTAssert(stdout.contains("Build complete!"), "stdout:\n\(stdout)")
         }
     }
+
+    func testURLBasedPluginAPI() throws {
+        // Only run the test if the environment in which we're running actually supports Swift concurrency (which the plugin APIs require).
+        try XCTSkipIf(!UserToolchain.default.supportsSwiftConcurrency(), "skipping because test environment doesn't support concurrency")
+
+        try fixture(name: "Miscellaneous/Plugins/MySourceGenPluginUsingURLBasedAPI") { fixturePath in
+            let (stdout, _) = try executeSwiftBuild(fixturePath, configuration: .Debug)
+            XCTAssert(stdout.contains("Applying MyOtherLocalTool"), "stdout:\n\(stdout)")
+            XCTAssert(stdout.contains("Applying MyLocalTool"), "stdout:\n\(stdout)")
+            XCTAssert(stdout.contains("Build complete!"), "stdout:\n\(stdout)")
+        }
+    }
 }
