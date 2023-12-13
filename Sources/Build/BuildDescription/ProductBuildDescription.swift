@@ -196,7 +196,8 @@ public final class ProductBuildDescription: SPMBuildCore.ProductBuildDescription
 
         switch derivedProductType {
         case .macro:
-            throw InternalError("macro not supported") // should never be reached
+            throw InternalError("DEBUG derivedProductType: \(derivedProductType)")
+            //throw InternalError("macro not supported") // should never be reached
         case .library(.automatic):
             throw InternalError("automatic library not supported")
         case .library(.static):
